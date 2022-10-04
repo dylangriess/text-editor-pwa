@@ -24,10 +24,32 @@ module.exports = () => {
         title: "Webpack Plugin",
       }),
       new MiniCssExtractPlugin(),
-      // TODO: set up InjectManifest()
-      new InjectManifest(),
-      // TODO: set up WebpackPwaManifest()
-      new WebpackPwaManifest(),
+
+      new InjectManifest({
+        swSrc: "./src-sw.js",
+        swDest: "service-worker.js",
+      }),
+      new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
+        name: "Just Another Text Editor",
+        short_name: "JATE",
+        description: "Progressive Web Application - Text Editor",
+        background_color: "#225ca3",
+        theme_color: "#225ca3",
+        start_url: "./",
+        publicPath: "./",
+        orientation: "portrait",
+        display: "standalone",
+        crossorigin: "use-credentials",
+        icons: [
+          {
+            src: path.resolve("src/images/logo.png"),
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join("assets", "icons"),
+          },
+        ],
+      }),
     ],
 
     module: {
